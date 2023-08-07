@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
@@ -32,6 +33,8 @@ class _VideoPostState extends State<VideoPost>
 
   bool _isPaused = false;
 
+  bool _isMuted = false;
+
   void _onVideoChange() {
     if (_videoPlayerController.value.isInitialized) {
       if (_videoPlayerController.value.duration ==
@@ -44,6 +47,10 @@ class _VideoPostState extends State<VideoPost>
   void _initVideoPlayer() async {
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
+    if (kIsWeb) {
+      _isMuted;
+      _videoPlayerController.setVolume(0);
+    }
     _videoPlayerController.addListener(_onVideoChange);
     setState(() {});
   }
@@ -103,6 +110,16 @@ class _VideoPostState extends State<VideoPost>
         backgroundColor: Colors.transparent,
         builder: (context) => const VideoComments());
     _onTogglePause();
+  }
+
+  void _onMutedTap() {
+    _isMuted = !_isMuted;
+    if (_isMuted) {
+      _videoPlayerController.setVolume(0);
+    } else {
+      _videoPlayerController.setVolume(50);
+    }
+    setState(() {});
   }
 
   @override
@@ -178,6 +195,15 @@ class _VideoPostState extends State<VideoPost>
             right: 15,
             child: Column(
               children: [
+                GestureDetector(
+                  onTap: _onMutedTap,
+                  child: VideoButton(
+                      icon: _isMuted
+                          ? FontAwesomeIcons.volumeXmark
+                          : FontAwesomeIcons.volumeHigh,
+                      text: "Vol"),
+                ),
+                Gaps.v24,
                 const CircleAvatar(
                   radius: 25,
                   backgroundColor: Colors.orange,
