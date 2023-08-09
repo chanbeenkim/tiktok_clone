@@ -8,6 +8,8 @@ import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../generated/l10n.dart';
+
 class VideoPost extends StatefulWidget {
   final Function onVideoFinished;
 
@@ -214,13 +216,15 @@ class _VideoPostState extends State<VideoPost>
                   ),
                 ),
                 Gaps.v24,
-                const VideoButton(
-                    icon: FontAwesomeIcons.solidHeart, text: "2.9M"),
+                VideoButton(
+                    icon: FontAwesomeIcons.solidHeart,
+                    text: S.of(context).likeCount(1123124)),
                 Gaps.v24,
                 GestureDetector(
                     onTap: () => _onCommentsTap(context),
-                    child: const VideoButton(
-                        icon: FontAwesomeIcons.solidComment, text: "33K")),
+                    child: VideoButton(
+                        icon: FontAwesomeIcons.solidComment,
+                        text: S.of(context).commentCount(112646416))),
                 Gaps.v24,
                 const VideoButton(icon: FontAwesomeIcons.share, text: "Share"),
               ],
